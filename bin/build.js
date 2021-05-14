@@ -1,22 +1,13 @@
-// 1. Load and Validate package.json
-// 2. Verify connection with Madoc development server
-//    - If not verified, pop open madoc to install module
-//    - Once verified, a token will be provided
-// 3. Run bundler
-// 4. Take bundle and post to Madoc
-//    - Madoc will save to disk
-//    - Madoc will refresh bundle (possibly restart to begin with)
-// 5. Watch for changes, go to 3.
+#!/usr/bin/env node
 
 const { prompt } = require('enquirer');
 const { red, green } = require('chalk');
-
-// Roll up dependencies.
 const path = require('path');
 const parseRepo = require('parse-github-repo-url');
 const yargs = require('yargs/yargs');
 const fs = require('fs');
 const { validatePackageJson } = require('../lib/validate-package-json');
+
 const { hideBin } = require('yargs/helpers');
 const argv = yargs(hideBin(process.argv)).argv;
 
