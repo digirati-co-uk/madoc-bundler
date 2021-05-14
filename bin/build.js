@@ -69,7 +69,7 @@ const pluginDetails = {
     : await requestTokenFromMadoc(madocEndpoint, defaultSite, pluginDetails);
 
   // Create our bundle.
-  const bundle = await createBundle();
+  const bundle = await createBundle(pluginDetails);
   if (!bundle) {
     process.exit(1);
   }

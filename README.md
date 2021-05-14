@@ -60,21 +60,20 @@ You can add scripts to your package.json
 ```json
 {
   "scripts": {
-    "build": "madoc-bundler",
-    "watch": "madoc-bundler --watch",
-    "prepare": "NODE_ENV=production madoc-bundler"
+    "start": "madoc-bundler --watch",
+    "build": "NODE_ENV=production madoc-bundler"
   }
 }
 ```
 
 and run them with:
 ```
-$ npm run watch
+$ npm run start
 ```
 
 or
 ```
-$ yarn watch
+$ yarn start
 ```
 
 When you run this, you will be prompted to provide the URL of your Madoc instance. You can set this in an environment
