@@ -103,7 +103,7 @@ will be added to the end of the router. The router used is [React router](https:
 ```javascript
 // src/index.js
 
-export function hookBlocks() {
+export function hookRoutes() {
   return [
     {
       path: '/my-plugin/some-page',
