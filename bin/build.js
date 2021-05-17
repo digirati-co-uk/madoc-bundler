@@ -10,6 +10,7 @@ const { validatePackageJson } = require('../lib/validate-package-json');
 
 const { hideBin } = require('yargs/helpers');
 const argv = yargs(hideBin(process.argv)).argv;
+const isProduction = process.env.NODE_ENV === 'production';
 
 // Verify connection with madoc development server.
 const initialToken = process.env.MADOC_TOKEN;
@@ -30,6 +31,7 @@ if (!fs.existsSync(rollupConfig)) {
 }
 
 const pkg = require(path.join(process.cwd(), 'package.json'));
+const { createProductionBundle } = require('../lib/create-production-bundle');
 const { watchBundle } = require('../lib/watch-bundle');
 const { createBundle } = require('../lib/create-bundle');
 const { requestTokenFromMadoc } = require('../lib/request-token-from-madoc');
@@ -52,6 +54,13 @@ const pluginDetails = {
 };
 
 (async () => {
+  // Production build only.
+  if (isProduction) {
+    await createProductionBundle(pluginDetails);
+
+    process.exit();
+  }
+
   // Confirm the endpoint.
   const { madocEndpoint } = endpoint
     ? { madocEndpoint: endpoint }
