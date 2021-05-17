@@ -68,23 +68,25 @@ const pluginDetails = {
     ? { token: initialToken }
     : await requestTokenFromMadoc(madocEndpoint, defaultSite, pluginDetails);
 
-  // Create our bundle.
-  const bundle = await createBundle(pluginDetails);
-  if (!bundle) {
-    process.exit(1);
-  }
-
-  // Sync the bundle.
-  const rev = await syncBundle(pluginDetails, madocEndpoint, token, bundle);
-
-  if (firstBundle) {
-    // Let madoc know what the bundle ID was
-    firstBundle.resolve({ revision: rev });
-  }
-
   if (argv.watch) {
     // Watch for changes. (--watch)
-    await watchBundle(madocEndpoint, token, pluginDetails);
+    await watchBundle(madocEndpoint, token, pluginDetails, (firstRev) => {
+      firstBundle.resolve({ revision: firstRev });
+    });
+  } else {
+    // Create our bundle.
+    const bundle = await createBundle(pluginDetails);
+    if (!bundle) {
+      process.exit(1);
+    }
+
+    // Sync the bundle.
+    const rev = await syncBundle(pluginDetails, madocEndpoint, token, bundle);
+
+    if (firstBundle) {
+      // Let madoc know what the bundle ID was
+      firstBundle.resolve({ revision: rev });
+    }
   }
 
   if (done) {
